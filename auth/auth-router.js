@@ -29,9 +29,6 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        const sessionId = uuid();
-        activeSessions.push(sessionId);
-        res.cookie("sessionId", sessionId, { maxAge: 900000 });
         res.status(200).json({ message: `Welcome ${user.username}!` });
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
