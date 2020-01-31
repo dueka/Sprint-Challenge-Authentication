@@ -2,17 +2,15 @@ const knex = require("knex");
 const db = knex(require("../knexfile").development);
 
 module.exports = {
-  add,
+  insert,
   getBy
 };
 
-function add(user) {
+async function insert(users) {
+  const [id] = await db("users").insert(users);
   return db("users")
-    .insert(user, "id")
-    .then(ids => {
-      const [id] = ids;
-      return findById(id);
-    });
+    .where({ id })
+    .first();
 }
 
 function getBy(filter) {
